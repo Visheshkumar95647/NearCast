@@ -1,0 +1,10 @@
+services:
+  frontend:
+    build:
+      context: ./client
+    container_name: nearby-frontend
+
+  backend:
+    build:
+      context: ./server
+    container_name: nearby-backend
