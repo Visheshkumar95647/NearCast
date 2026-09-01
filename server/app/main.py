@@ -4,6 +4,7 @@ from fastapi import FastAPI
 
 from app.core.logging import setup_logging
 from app.exceptions.handlers import register_exception_handlers
+from app.middleware.cors import setup_cors
 
 
 setup_logging()
@@ -15,6 +16,8 @@ app = FastAPI(
     description="Privacy-first hyperlocal social discovery platform",
     version="0.1.0",
 )
+
+setup_cors(app)
 
 register_exception_handlers(app)
 
