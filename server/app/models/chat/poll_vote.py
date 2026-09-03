@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 
-from sqlalchemy import DateTime, ForeignKey
+from sqlalchemy import DateTime, ForeignKey, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -9,8 +9,8 @@ from app.core.database import Base
 from app.models.base import TimestampMixin
 
 
-class PollVote(TimestampMixin, Base):
-    __tablename__ = "poll_votes"
+class Vote(TimestampMixin, Base):
+    __tablename__ = "votes"
 
     id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
@@ -42,4 +42,13 @@ class PollVote(TimestampMixin, Base):
     voted_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         nullable=False,
+    )
+
+    __table_args__ = (
+        UniqueConstraint(
+            "poll_id",
+            "option_id",
+            "user_id",
+            name="uq_vote_poll_option_user",
+        ),
     )

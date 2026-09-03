@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 
-from sqlalchemy import DateTime, ForeignKey, String
+from sqlalchemy import DateTime, ForeignKey, String, Text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -9,8 +9,8 @@ from app.core.database import Base
 from app.models.base import TimestampMixin
 
 
-class ChatMember(TimestampMixin, Base):
-    __tablename__ = "chat_members"
+class AIInteraction(TimestampMixin, Base):
+    __tablename__ = "ai_interactions"
 
     id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
@@ -25,20 +25,35 @@ class ChatMember(TimestampMixin, Base):
         index=True,
     )
 
-    chat_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
-        ForeignKey("chats.id", ondelete="CASCADE"),
+    interaction_type: Mapped[str] = mapped_column(
+        String(50),
         nullable=False,
         index=True,
     )
 
-    role: Mapped[str] = mapped_column(
-        String(20),
+    input_text: Mapped[str] = mapped_column(
+        Text,
         nullable=False,
-        default="member",
     )
 
-    joined_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True),
+    output_text: Mapped[str | None] = mapped_column(
+        Text,
+        nullable=True,
+    )
+
+    model_name: Mapped[str | None] = mapped_column(
+        String(100),
+        nullable=True,
+    )
+
+    status: Mapped[str] = mapped_column(
+        String(20),
         nullable=False,
+        default="completed",
+        index=True,
+    )
+
+    completed_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True,
     )

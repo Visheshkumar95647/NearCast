@@ -9,8 +9,8 @@ from app.core.database import Base
 from app.models.base import TimestampMixin
 
 
-class GroupMember(TimestampMixin, Base):
-    __tablename__ = "group_members"
+class Recommendation(TimestampMixin, Base):
+    __tablename__ = "recommendations"
 
     id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
@@ -25,20 +25,34 @@ class GroupMember(TimestampMixin, Base):
         index=True,
     )
 
-    group_id: Mapped[uuid.UUID] = mapped_column(
+    activity_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True),
+        ForeignKey("activities.id", ondelete="CASCADE"),
+        nullable=True,
+        index=True,
+    )
+
+    group_id: Mapped[uuid.UUID | None] = mapped_column(
         UUID(as_uuid=True),
         ForeignKey("groups.id", ondelete="CASCADE"),
+        nullable=True,
+        index=True,
+    )
+
+    recommendation_type: Mapped[str] = mapped_column(
+        String(50),
         nullable=False,
         index=True,
     )
 
-    role: Mapped[str] = mapped_column(
+    status: Mapped[str] = mapped_column(
         String(20),
         nullable=False,
-        default="member",
+        default="shown",
+        index=True,
     )
 
-    joined_at: Mapped[datetime] = mapped_column(
+    recommended_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         nullable=False,
     )
