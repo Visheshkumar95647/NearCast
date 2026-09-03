@@ -8,6 +8,7 @@ from app.models.group_member import GroupMember
 from app.models.interest import Interest
 from app.models.join_request import JoinRequest
 from app.models.message import Message
+from app.models.notification import Notification
 from app.models.poll import Poll
 from app.models.poll_option import PollOption
 from app.models.poll_vote import PollVote
