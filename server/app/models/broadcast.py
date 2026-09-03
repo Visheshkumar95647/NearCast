@@ -1,6 +1,7 @@
 import uuid
+from datetime import datetime
 
-from sqlalchemy import Boolean, ForeignKey, String, Text
+from sqlalchemy import DateTime, ForeignKey, Text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -8,8 +9,8 @@ from app.core.database import Base
 from app.models.base import TimestampMixin
 
 
-class Poll(TimestampMixin, Base):
-    __tablename__ = "polls"
+class Broadcast(TimestampMixin, Base):
+    __tablename__ = "broadcasts"
 
     id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
@@ -17,33 +18,26 @@ class Poll(TimestampMixin, Base):
         default=uuid.uuid4,
     )
 
-    chat_id: Mapped[uuid.UUID] = mapped_column(
+    group_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
-        ForeignKey("chats.id", ondelete="CASCADE"),
+        ForeignKey("groups.id", ondelete="CASCADE"),
         nullable=False,
         index=True,
     )
 
-    creator_id: Mapped[uuid.UUID] = mapped_column(
+    sender_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
         ForeignKey("users.id", ondelete="CASCADE"),
         nullable=False,
         index=True,
     )
 
-    question: Mapped[str] = mapped_column(
+    content: Mapped[str] = mapped_column(
         Text,
         nullable=False,
     )
 
-    is_multiple_choice: Mapped[bool] = mapped_column(
-        Boolean,
-        default=False,
-        nullable=False,
-    )
-
-    is_closed: Mapped[bool] = mapped_column(
-        Boolean,
-        default=False,
+    sent_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
         nullable=False,
     )
