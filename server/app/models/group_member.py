@@ -9,8 +9,8 @@ from app.core.database import Base
 from app.models.base import TimestampMixin
 
 
-class JoinRequest(TimestampMixin, Base):
-    __tablename__ = "join_requests"
+class GroupMember(TimestampMixin, Base):
+    __tablename__ = "group_members"
 
     id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
@@ -32,18 +32,13 @@ class JoinRequest(TimestampMixin, Base):
         index=True,
     )
 
-    status: Mapped[str] = mapped_column(
+    role: Mapped[str] = mapped_column(
         String(20),
         nullable=False,
-        default="pending",
+        default="member",
     )
 
-    requested_at: Mapped[datetime] = mapped_column(
+    joined_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         nullable=False,
-    )
-
-    reviewed_at: Mapped[datetime | None] = mapped_column(
-        DateTime(timezone=True),
-        nullable=True,
     )
