@@ -17,10 +17,11 @@ class Chat(TimestampMixin, Base):
         default=uuid.uuid4,
     )
 
-    group_id: Mapped[uuid.UUID | None] = mapped_column(
+    group_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
         ForeignKey("groups.id", ondelete="CASCADE"),
-        nullable=True,
+        nullable=False,
+        unique=True,
         index=True,
     )
 

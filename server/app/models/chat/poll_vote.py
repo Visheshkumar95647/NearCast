@@ -9,8 +9,8 @@ from app.core.database import Base
 from app.models.base import TimestampMixin
 
 
-class Vote(TimestampMixin, Base):
-    __tablename__ = "votes"
+class PollVote(TimestampMixin, Base):
+    __tablename__ = "poll_votes"
 
     id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),

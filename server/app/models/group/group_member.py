@@ -9,8 +9,8 @@ from app.core.database import Base
 from app.models.base import TimestampMixin
 
 
-class Membership(TimestampMixin, Base):
-    __tablename__ = "memberships"
+class GroupMember(TimestampMixin, Base):
+    __tablename__ = "group_members"
 
     id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
