@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 
-from sqlalchemy import DateTime, ForeignKey, String
+from sqlalchemy import DateTime, ForeignKey, String, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -11,6 +11,14 @@ from app.models.base import TimestampMixin
 
 class ActivityParticipant(TimestampMixin, Base):
     __tablename__ = "activity_participants"
+
+    __table_args__ = (
+        UniqueConstraint(
+            "user_id",
+            "activity_id",
+            name="uq_activity_participant_user_activity",
+        ),
+    )
 
     id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),

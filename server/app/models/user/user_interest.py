@@ -1,6 +1,6 @@
 import uuid
 
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -10,6 +10,14 @@ from app.models.base import TimestampMixin
 
 class UserInterest(TimestampMixin, Base):
     __tablename__ = "user_interests"
+
+    __table_args__ = (
+        UniqueConstraint(
+            "user_id",
+            "interest_id",
+            name="uq_user_interest",
+        ),
+    )
 
     id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
