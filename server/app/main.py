@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from app.core.logging import setup_logging
 from app.exceptions.handlers import register_exception_handlers
 from app.middleware.cors import setup_cors
-
+from server.app.api.routes.auth import router as auth_router
 
 setup_logging()
 
@@ -30,3 +30,5 @@ def health_check():
         "status": "healthy",
         "service": "nearby-api",
     }
+
+app.include_router(auth_router)
