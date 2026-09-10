@@ -6,6 +6,7 @@ from app.core.logging import setup_logging
 from app.exceptions.handlers import register_exception_handlers
 from app.middleware.cors import setup_cors
 from app.api.routes.auth import router as auth_router
+from app.api.routes.user import router as user_router
 
 setup_logging()
 
@@ -32,3 +33,4 @@ def health_check():
     }
 
 app.include_router(auth_router)
+app.include_router(user_router)
