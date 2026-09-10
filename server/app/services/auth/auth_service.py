@@ -13,9 +13,8 @@ from app.core.security import (
 )
 from app.models.user.refresh_token import RefreshToken
 from app.models.user.user import User
-from app.repositories.refresh_token_repository import RefreshTokenRepository
-from app.repositories.user_repository import UserRepository
-
+from app.repositories.auth.refresh_token_repository import RefreshTokenRepository
+from app.repositories.user.user_repository import UserRepository
 
 class AuthService:
 

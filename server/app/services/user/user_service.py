@@ -2,8 +2,7 @@ from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.models.user.user import User
-from app.repositories.user_repository import UserRepository
-
+from app.repositories.user.user_repository import UserRepository
 
 class UserService:
     def __init__(self):
