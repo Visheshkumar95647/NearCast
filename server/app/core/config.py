@@ -8,6 +8,9 @@ class Settings(BaseSettings):
 
     jwt_secret: str = ""
     jwt_refresh_secret: str = ""
+    access_token_expire_minutes: int = 60
+    jwt_refresh_expire_days: int = 30
+    jwt_algorithm: str = "HS256"
 
     redis_url: str = ""
 

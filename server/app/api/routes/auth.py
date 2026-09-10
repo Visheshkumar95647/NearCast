@@ -3,7 +3,15 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_db
-from app.core.security import create_access_token, hash_password, verify_password
+from app.core.security import (
+    create_access_token,
+    create_refresh_token,
+    hash_password,
+    verify_password,
+)
+from jose import JWTError, jwt
+
+from app.core.config import settings
 from app.models.user.user import User
 from app.api.deps import get_current_user, get_db
 
@@ -60,7 +68,6 @@ def register(
         is_active=user.is_active,
     )
 
-
 @router.post(
     "/login",
     response_model=TokenResponse,
@@ -97,10 +104,59 @@ def login(
         subject=str(user.id)
     )
 
+    refresh_token = create_refresh_token(
+        subject=str(user.id)
+    )
+
     return TokenResponse(
         access_token=access_token,
+        refresh_token=refresh_token,
         token_type="bearer",
     )
+
+@router.post(
+    "/refresh",
+    response_model=TokenResponse,
+)
+def refresh_token(
+    refresh_token: str,
+):
+    try:
+        payload = jwt.decode(
+            refresh_token,
+            settings.jwt_refresh_secret,
+            algorithms=[settings.jwt_algorithm],
+        )
+    except JWTError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or expired refresh token",
+        )
+
+    if payload.get("type") != "refresh":
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid refresh token",
+        )
+
+    user_id = payload.get("sub")
+
+    if not user_id:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid refresh token",
+        )
+
+    access_token = create_access_token(
+        subject=user_id
+    )
+
+    return TokenResponse(
+        access_token=access_token,
+        refresh_token=refresh_token,
+        token_type="bearer",
+    )
+
 @router.get(
     "/me",
     response_model=UserResponse,
