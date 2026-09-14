@@ -7,6 +7,10 @@ from app.exceptions.handlers import register_exception_handlers
 from app.middleware.cors import setup_cors
 from app.api.routes.auth import router as auth_router
 from app.api.routes.user import router as user_router
+from app.api.routes.activity import router as activity_router
+from app.api.routes.activity_location import router as activity_location_router
+from app.api.routes.activity_participant import router as activity_participant_router
+
 
 setup_logging()
 
@@ -34,3 +38,6 @@ def health_check():
 
 app.include_router(auth_router)
 app.include_router(user_router)
+app.include_router(activity_router)
+app.include_router(activity_location_router)
+app.include_router(activity_participant_router)

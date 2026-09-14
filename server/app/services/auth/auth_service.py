@@ -198,6 +198,7 @@ class AuthService:
             stored_token,
         )
 
+
     def get_current_user(
         self,
         db: Session,

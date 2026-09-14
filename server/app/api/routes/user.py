@@ -44,6 +44,7 @@ location_service = LocationService()
 # User Profile
 # =========================
 
+
 @router.get(
     "/me",
     response_model=UserProfileResponse,
