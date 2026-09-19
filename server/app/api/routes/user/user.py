@@ -26,7 +26,10 @@ from app.services.user.interest_service import InterestService
 from app.services.user.location_service import LocationService
 from app.services.user.preference_service import PreferenceService
 from app.services.user.user_service import UserService
-
+from app.schemas.activity.saved_activity import SavedActivityResponse
+from app.services.activity.saved_activity_service import SavedActivityService
+from app.schemas.activity.interaction import ActivityInteractionResponse
+from app.services.activity.interaction_service import ActivityInteractionService
 
 router = APIRouter(
     prefix="/users",
@@ -38,6 +41,8 @@ user_service = UserService()
 interest_service = InterestService()
 preference_service = PreferenceService()
 location_service = LocationService()
+saved_activity_service = SavedActivityService()
+interaction_service = ActivityInteractionService()
 
 
 # =========================
@@ -257,3 +262,58 @@ def update_my_location(
         latitude=data.latitude,
         longitude=data.longitude,
     )
+
+# =========================
+# Saved Activities
+# =========================
+
+@router.get(
+    "/me/saved-activities",
+    response_model=list[SavedActivityResponse],
+)
+def get_saved_activities(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    saved_activities = saved_activity_service.get_saved_activities(
+        db=db,
+        user_id=str(current_user.id),
+    )
+
+    return [
+        SavedActivityResponse(
+            id=str(saved_activity.id),
+            user_id=str(saved_activity.user_id),
+            activity_id=str(saved_activity.activity_id),
+            created_at=saved_activity.created_at,
+        )
+        for saved_activity in saved_activities
+    ]
+
+# =========================
+# Activity Interactions
+# =========================
+
+@router.get(
+    "/me/activity-interactions",
+    response_model=list[ActivityInteractionResponse],
+)
+def get_activity_interactions(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    interactions = interaction_service.get_user_interactions(
+        db=db,
+        user_id=str(current_user.id),
+    )
+
+    return [
+        ActivityInteractionResponse(
+            id=str(interaction.id),
+            user_id=str(interaction.user_id),
+            activity_id=str(interaction.activity_id),
+            interaction_type=interaction.interaction_type,
+            occurred_at=interaction.occurred_at,
+        )
+        for interaction in interactions
+    ]

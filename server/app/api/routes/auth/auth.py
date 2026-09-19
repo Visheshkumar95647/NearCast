@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, Response, status
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_current_user, get_db
@@ -50,12 +50,21 @@ def register(
 )
 def login(
     data: LoginRequest,
+    response: Response,
     db: Session = Depends(get_db),
 ):
     access_token, refresh_token = auth_service.login(
         db=db,
         email=data.email,
         password=data.password,
+    )
+
+    response.set_cookie(
+        key="access_token",
+        value=access_token,
+        httponly=True,
+        secure=False,
+        samesite="lax",
     )
 
     return TokenResponse(
