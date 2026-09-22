@@ -23,6 +23,11 @@ from app.api.routes.group.join_request import router as join_request_router
 from app.api.routes.group.broadcast import router as broadcast_router
 
 from app.api.routes.websocket.websocket import router as websocket_router
+from app.api.routes.websocket.chat import router as chat_websocket_router
+
+from app.api.routes.chat.chat import router as chat_router
+from app.api.routes.chat.message import router as message_router
+from app.api.routes.chat.poll import router as poll_router
 
 setup_logging()
 
@@ -62,3 +67,8 @@ app.include_router(join_request_router)
 app.include_router(broadcast_router)
 
 app.include_router(websocket_router)
+app.include_router(chat_websocket_router)
+
+app.include_router(chat_router)
+app.include_router(message_router)
+app.include_router(poll_router)

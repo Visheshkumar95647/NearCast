@@ -9,7 +9,7 @@ from app.repositories.group.group_location_repository import GroupLocationReposi
 from app.repositories.group.group_member_repository import GroupMemberRepository
 from app.repositories.user.location_repository import LocationRepository
 from app.schemas.websocket.broadcast import BroadcastWebSocketMessage
-from app.websocket.manager import manager
+from server.app.services.recommendation.websocket.manager import manager
 
 
 class BroadcastService:

@@ -90,3 +90,16 @@ class GroupMemberRepository:
         )
 
         return result.scalar_one_or_none() is not None
+    def get_user_ids_by_group_id(
+    self,
+    db: Session,
+    group_id: str,
+) -> list[str]:
+
+        result = db.execute(
+        select(GroupMember.user_id).where(
+            GroupMember.group_id == group_id,
+        )
+    )
+
+        return [str(user_id) for user_id in result.scalars().all()]
