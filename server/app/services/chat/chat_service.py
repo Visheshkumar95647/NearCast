@@ -56,27 +56,27 @@ class ChatService:
     user_id: str,
 ) -> Chat:
 
-    chat = self.chat_repository.get_by_id(
+        chat = self.chat_repository.get_by_id(
         db=db,
         chat_id=chat_id,
-    )
+        )
 
-    if not chat:
-        raise HTTPException(
+        if not chat:
+            raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Chat not found",
         )
 
-    group_member = self.group_member_repository.get_by_user_and_group(
+        group_member = self.group_member_repository.get_by_user_and_group(
         db=db,
         user_id=user_id,
         group_id=str(chat.group_id),
-    )
+        )
 
-    if not group_member:
-        raise HTTPException(
+        if not group_member:
+            raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="You are not a member of this group",
         )
 
-    return chat
+        return chat

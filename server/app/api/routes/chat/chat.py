@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_current_user, get_db
-from app.models.chat.chat import Chat
+from app.schemas.chat.chat import ChatResponse
 from app.models.user.user import User
 from app.services.chat.chat_service import ChatService
 
@@ -18,7 +18,7 @@ chat_service = ChatService()
 
 @router.get(
     "/{group_id}/chat",
-    response_model=Chat,
+    response_model=ChatResponse,
 )
 def get_or_create_group_chat(
     group_id: str,
@@ -34,7 +34,7 @@ def get_or_create_group_chat(
 
 @router.get(
     "/chat/{chat_id}",
-    response_model=Chat,
+    response_model=ChatResponse,
 )
 def get_chat(
     chat_id: str,

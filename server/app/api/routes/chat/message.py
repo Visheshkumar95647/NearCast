@@ -26,7 +26,7 @@ class MessageCreate(BaseModel):
 
 @router.post(
     "/{chat_id}/messages",
-    response_model=Message,
+    response_model=MessageListResponse,
 )
 async def send_message(
     chat_id: str,

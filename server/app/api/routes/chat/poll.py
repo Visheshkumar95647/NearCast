@@ -3,11 +3,10 @@ from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_current_user, get_db
-from app.models.chat.poll import Poll
-from app.models.chat.poll_vote import PollVote
 from app.models.user.user import User
 from app.repositories.chat.poll_option_repository import PollOptionRepository
 from app.repositories.chat.poll_vote_repository import PollVoteRepository
+from app.schemas.chat.poll import PollResponse, PollVoteResponse
 from app.services.chat.poll_service import PollService
 
 
@@ -15,6 +14,7 @@ router = APIRouter(
     prefix="/chat",
     tags=["Chat Polls"],
 )
+
 
 poll_service = PollService()
 poll_option_repository = PollOptionRepository()
@@ -39,7 +39,7 @@ class PollVoteCreate(BaseModel):
 
 @router.post(
     "/{chat_id}/polls",
-    response_model=Poll,
+    response_model=PollResponse,
 )
 def create_poll(
     chat_id: str,
@@ -59,7 +59,7 @@ def create_poll(
 
 @router.post(
     "/polls/{poll_id}/vote",
-    response_model=PollVote,
+    response_model=PollVoteResponse,
 )
 def vote_on_poll(
     poll_id: str,
@@ -118,7 +118,7 @@ def get_poll(
 
 @router.get(
     "/{chat_id}/polls",
-    response_model=list[Poll],
+    response_model=list[PollResponse],
 )
 def get_chat_polls(
     chat_id: str,
@@ -134,7 +134,7 @@ def get_chat_polls(
 
 @router.patch(
     "/polls/{poll_id}/close",
-    response_model=Poll,
+    response_model=PollResponse,
 )
 def close_poll(
     poll_id: str,

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect
 
 from app.api.routes.websocket.deps import get_current_websocket_user
-from server.app.services.recommendation.websocket.manager import manager
+from app.websocket.manager import manager
 
 
 # Create the WebSocket router
