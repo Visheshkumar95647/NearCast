@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from fastapi import APIRouter, Depends
 
 from sqlalchemy.orm import Session
@@ -21,7 +23,7 @@ join_request_service = JoinRequestService()
     response_model=list[JoinRequestResponse],
 )
 def get_group_requests(
-    group_id: str,
+    group_id: UUID,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
@@ -37,7 +39,7 @@ def get_group_requests(
     response_model=JoinRequestResponse | None,
 )
 def get_my_request(
-    group_id: str,
+    group_id: UUID,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):

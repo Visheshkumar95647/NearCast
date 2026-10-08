@@ -1,4 +1,6 @@
-from pydantic import BaseModel, Field
+
+
+from pydantic import BaseModel, Field ,UUID4
 
 
 class GroupCreateRequest(BaseModel):
@@ -15,7 +17,7 @@ class GroupUpdateRequest(BaseModel):
 
 
 class GroupResponse(BaseModel):
-    id: str
+    id: UUID4
     name: str
     description: str | None
     is_private: bool

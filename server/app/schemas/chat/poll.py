@@ -1,12 +1,11 @@
-from uuid import UUID
 
-from pydantic import BaseModel
+from pydantic import BaseModel ,UUID4
 
 
 class PollResponse(BaseModel):
-    id: UUID
-    chat_id: UUID
-    creator_id: UUID
+    id: UUID4
+    chat_id: UUID4
+    creator_id: UUID4
     question: str
     is_multiple_choice: bool
     is_closed: bool
@@ -17,10 +16,10 @@ class PollResponse(BaseModel):
 
 
 class PollVoteResponse(BaseModel):
-    id: UUID
-    poll_id: UUID
-    option_id: UUID
-    user_id: UUID
+    id: UUID4
+    poll_id: UUID4
+    option_id: UUID4
+    user_id: UUID4
 
     model_config = {
         "from_attributes": True

@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from fastapi import WebSocket
 from sqlalchemy.orm import Session
 
@@ -15,7 +17,7 @@ group_member_repository = GroupMemberRepository()
 
 async def get_current_chat_websocket_user(
     websocket: WebSocket,
-    chat_id: str,
+    chat_id: UUID,
 ) -> User:
     token = websocket.cookies.get("access_token")
 
@@ -41,10 +43,10 @@ async def get_current_chat_websocket_user(
             raise RuntimeError("Chat not found")
 
         group_member = group_member_repository.get_by_user_and_group(
-            db=db,
-            user_id=str(current_user.id),
-            group_id=str(chat.group_id),
-        )
+    db=db,
+    user_id=current_user.id,
+    group_id=chat.group_id,
+)
 
         if not group_member:
             await websocket.close(code=1008)

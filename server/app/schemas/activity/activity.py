@@ -1,13 +1,13 @@
 from datetime import datetime
-from uuid import UUID
 
-from pydantic import BaseModel, Field
+
+from pydantic import BaseModel, Field ,UUID4
 
 
 class ActivityCreateRequest(BaseModel):
     title: str = Field(min_length=1, max_length=150)
     description: str | None = None
-    group_id: UUID | None = None
+    group_id: UUID4 | None = None
     starts_at: datetime
     ends_at: datetime | None = None
     is_public: bool = True
@@ -16,7 +16,7 @@ class ActivityCreateRequest(BaseModel):
 class ActivityUpdateRequest(BaseModel):
     title: str | None = Field(default=None, min_length=1, max_length=150)
     description: str | None = None
-    group_id: UUID | None = None
+    group_id: UUID4 | None = None
     starts_at: datetime | None = None
     ends_at: datetime | None = None
     is_public: bool | None = None
@@ -24,8 +24,8 @@ class ActivityUpdateRequest(BaseModel):
 
 
 class ActivityResponse(BaseModel):
-    id: UUID
-    group_id: UUID | None
+    id: UUID4
+    group_id: UUID4 | None
     title: str
     description: str | None
     starts_at: datetime

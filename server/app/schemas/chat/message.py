@@ -1,12 +1,12 @@
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel ,UUID4
 
 
 class MessageResponse(BaseModel):
-    id: str
-    chat_id: str
-    sender_id: str
+    id: UUID4
+    chat_id: UUID4
+    sender_id: UUID4
     content: str
     sent_at: datetime
     created_at: datetime

@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
@@ -46,7 +48,11 @@ def get_groups(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    return group_service.get_groups(db)
+
+    return group_service.get_groups(
+        db=db,
+        user_id=current_user.id,
+    )
 
 
 @router.get(
@@ -54,7 +60,7 @@ def get_groups(
     response_model=GroupResponse,
 )
 def get_group(
-    group_id: str,
+    group_id: UUID,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
@@ -69,7 +75,7 @@ def get_group(
     response_model=GroupResponse,
 )
 def update_group(
-    group_id: str,
+    group_id: UUID,
     data: GroupUpdateRequest,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
@@ -77,6 +83,7 @@ def update_group(
     return group_service.update_group(
         db=db,
         group_id=group_id,
+        user_id=current_user.id,
         name=data.name,
         description=data.description,
         is_private=data.is_private,
@@ -89,11 +96,12 @@ def update_group(
     status_code=status.HTTP_204_NO_CONTENT,
 )
 def delete_group(
-    group_id: str,
+    group_id: UUID,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
     group_service.delete_group(
         db=db,
+        user_id=current_user.id,
         group_id=group_id,
     )

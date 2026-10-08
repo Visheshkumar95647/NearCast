@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+from uuid import UUID
 
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
@@ -8,6 +9,7 @@ from app.models.group.group import Group
 from app.models.group.group_member import GroupMember
 from app.repositories.common.join_request_repository import JoinRequestRepository
 from app.repositories.group.group_member_repository import GroupMemberRepository
+from app.models.user.user import User
 
 
 class GroupMemberService:
@@ -19,8 +21,8 @@ class GroupMemberService:
     def join_group(
         self,
         db: Session,
-        user_id: str,
-        group_id: str,
+        user_id: UUID,
+        group_id: UUID,
     ) -> GroupMember | JoinRequest:
 
         group = db.get(Group, group_id)
@@ -62,6 +64,14 @@ class GroupMemberService:
             )
 
         if group.is_private:
+            user = db.get(User, user_id)
+
+            if not user:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="User not found",
+                )
+
             join_request = JoinRequest(
                 user_id=user_id,
                 group_id=group_id,
@@ -89,8 +99,8 @@ class GroupMemberService:
     def leave_group(
         self,
         db: Session,
-        user_id: str,
-        group_id: str,
+        user_id: UUID,
+        group_id: UUID,
     ) -> None:
 
         member = self.group_member_repository.get_by_user_and_group(
@@ -137,9 +147,9 @@ class GroupMemberService:
     def promote_to_admin(
         self,
         db: Session,
-        user_id: str,
-        group_id: str,
-        member_id: str,
+        user_id: UUID,
+        group_id: UUID,
+        member_id: UUID,
     ) -> GroupMember:
 
         if not self.group_member_repository.is_admin(
@@ -154,7 +164,7 @@ class GroupMemberService:
 
         member = db.get(GroupMember, member_id)
 
-        if not member or str(member.group_id) != group_id:
+        if not member or str(member.group_id) != str(group_id):
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Group member not found",
@@ -176,9 +186,9 @@ class GroupMemberService:
     def demote_from_admin(
         self,
         db: Session,
-        user_id: str,
-        group_id: str,
-        member_id: str,
+        user_id: UUID,
+        group_id: UUID,
+        member_id: UUID,
     ) -> GroupMember:
 
         if not self.group_member_repository.is_admin(
@@ -193,7 +203,7 @@ class GroupMemberService:
 
         member = db.get(GroupMember, member_id)
 
-        if not member or str(member.group_id) != group_id:
+        if not member or str(member.group_id) != str(group_id):
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Group member not found",
@@ -205,7 +215,7 @@ class GroupMemberService:
                 detail="User is not an admin",
             )
 
-        if str(member.user_id) == user_id:
+        if str(member.user_id) == str(user_id):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="You cannot demote yourself",
@@ -232,7 +242,7 @@ class GroupMemberService:
     def get_members(
         self,
         db: Session,
-        group_id: str,
+        group_id: UUID,
     ) -> list[tuple[GroupMember, object]]:
 
         group = db.get(Group, group_id)

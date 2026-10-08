@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field , UUID4
 
 
 class PreferenceUpdateRequest(BaseModel):
@@ -18,7 +18,7 @@ class PreferenceUpdateRequest(BaseModel):
 
 
 class PreferenceResponse(BaseModel):
-    id: str
+    id: UUID4
     max_distance_km: float
     preferred_group_size: int | None
     preferred_activity_type: str | None

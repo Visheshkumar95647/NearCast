@@ -55,7 +55,7 @@ class PollService:
         group_member = self.group_member_repository.get_by_user_and_group(
             db=db,
             user_id=user_id,
-            group_id=str(chat.group_id),
+            group_id=(chat.group_id),
         )
 
         if not group_member:
@@ -97,7 +97,7 @@ class PollService:
 
         member_user_ids = self.group_member_repository.get_user_ids_by_group_id(
             db=db,
-            group_id=str(chat.group_id),
+            group_id=(chat.group_id),
         )
 
         websocket_message = PollWebSocketMessage(
@@ -156,7 +156,7 @@ class PollService:
         group_member = self.group_member_repository.get_by_user_and_group(
             db=db,
             user_id=user_id,
-            group_id=str(chat.group_id),
+            group_id=(chat.group_id),
         )
 
         if not group_member:
@@ -215,7 +215,7 @@ class PollService:
 
         member_user_ids = self.group_member_repository.get_user_ids_by_group_id(
             db=db,
-            group_id=str(chat.group_id),
+            group_id=(chat.group_id),
         )
 
         vote_counts = self.poll_vote_repository.get_vote_counts_by_poll_id(
@@ -286,7 +286,7 @@ class PollService:
         group_member = self.group_member_repository.get_by_user_and_group(
             db=db,
             user_id=user_id,
-            group_id=str(chat.group_id),
+            group_id=(chat.group_id),
         )
 
         if not group_member:
@@ -317,7 +317,7 @@ class PollService:
         group_member = self.group_member_repository.get_by_user_and_group(
             db=db,
             user_id=user_id,
-            group_id=str(chat.group_id),
+            group_id=(chat.group_id),
         )
 
         if not group_member:
@@ -380,7 +380,7 @@ class PollService:
 
         member_user_ids = self.group_member_repository.get_user_ids_by_group_id(
             db=db,
-            group_id=str(chat.group_id),
+            group_id=(chat.group_id),
         )
 
         websocket_message = PollCloseWebSocketMessage(

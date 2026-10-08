@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -9,7 +11,7 @@ class ChatRepository:
     def get_by_group_id(
         self,
         db: Session,
-        group_id: str,
+        group_id: UUID,
     ) -> Chat | None:
 
         result = db.execute(

@@ -1,22 +1,21 @@
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, UUID4
 
 
 class GroupMemberResponse(BaseModel):
-    id: str
-    user_id: str
-    group_id: str
+    id: UUID4
+    user_id: UUID4
+    group_id: UUID4
     username: str
     role: str
     joined_at: datetime
 
 
 class JoinRequestResponse(BaseModel):
-    id: str
-    user_id: str
-    group_id: str
-    username: str
+    id: UUID4
+    user_id: UUID4
+    group_id: UUID4
     status: str
     requested_at: datetime
     reviewed_at: datetime | None

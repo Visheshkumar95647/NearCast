@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from sqlalchemy import select, text
 from sqlalchemy.orm import Session
 
@@ -9,7 +11,7 @@ class GroupLocationRepository:
     def get_by_group_id(
         self,
         db: Session,
-        group_id: str,
+        group_id: UUID,
     ) -> GroupLocation | None:
         result = db.execute(
             select(GroupLocation).where(

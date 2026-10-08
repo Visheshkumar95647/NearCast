@@ -1,6 +1,7 @@
 from datetime import datetime
 
-from pydantic import BaseModel, Field
+
+from pydantic import BaseModel, Field ,UUID4
 
 
 class GroupLocationCreateRequest(BaseModel):
@@ -16,8 +17,8 @@ class GroupLocationUpdateRequest(BaseModel):
 
 
 class GroupLocationResponse(BaseModel):
-    id: str
-    group_id: str
+    id: UUID4
+    group_id: UUID4
     latitude: float
     longitude: float
     name: str | None

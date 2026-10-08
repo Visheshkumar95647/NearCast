@@ -1,10 +1,10 @@
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel ,UUID4
 
 
 class SavedActivityResponse(BaseModel):
-    id: str
-    user_id: str
-    activity_id: str
+    id: UUID4
+    user_id: UUID4
+    activity_id: UUID4
     created_at: datetime

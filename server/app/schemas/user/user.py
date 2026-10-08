@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr , UUID4
 
 
 class UserProfileUpdate(BaseModel):
@@ -7,7 +7,7 @@ class UserProfileUpdate(BaseModel):
 
 
 class UserProfileResponse(BaseModel):
-    id: str
+    id: UUID4
     username: str
     email: EmailStr
     is_active: bool

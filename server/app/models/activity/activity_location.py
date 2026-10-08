@@ -7,10 +7,19 @@ from sqlalchemy.orm import Mapped, mapped_column
 from app.core.database import Base
 from app.models.base import TimestampMixin
 from app.models.common.location import LocationMixin
+from sqlalchemy import ForeignKey, String, UniqueConstraint
+
 
 
 class ActivityLocation(TimestampMixin, LocationMixin, Base):
     __tablename__ = "activity_locations"
+
+    __table_args__ = (
+        UniqueConstraint(
+            "activity_id",
+            name="uq_activity_location_activity",
+        ),
+    )
 
     id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),

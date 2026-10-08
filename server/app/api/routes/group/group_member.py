@@ -1,4 +1,5 @@
 from typing import Union
+from uuid import UUID
 
 from fastapi import APIRouter, Depends
 
@@ -29,13 +30,13 @@ group_member_service = GroupMemberService()
     response_model=Union[GroupMemberResponse, JoinRequestResponse],
 )
 def join_group(
-    group_id: str,
+    group_id: UUID,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
     return group_member_service.join_group(
         db=db,
-        user_id=str(current_user.id),
+        user_id=current_user.id,
         group_id=group_id,
     )
 
@@ -45,7 +46,7 @@ def join_group(
     response_model=list[GroupMemberResponse],
 )
 def get_group_members(
-    group_id: str,
+    group_id: UUID,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
@@ -71,13 +72,13 @@ def get_group_members(
     "/{group_id}/members/me",
 )
 def leave_group(
-    group_id: str,
+    group_id: UUID,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
     group_member_service.leave_group(
         db=db,
-        user_id=str(current_user.id),
+        user_id=current_user.id,
         group_id=group_id,
     )
 
@@ -90,14 +91,14 @@ def leave_group(
     response_model=GroupMemberResponse,
 )
 def promote_member_to_admin(
-    group_id: str,
-    member_id: str,
+    group_id: UUID,
+    member_id: UUID,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
     member = group_member_service.promote_to_admin(
         db=db,
-        user_id=str(current_user.id),
+        user_id=current_user.id,
         group_id=group_id,
         member_id=member_id,
     )
@@ -115,8 +116,8 @@ def promote_member_to_admin(
     response_model=GroupMemberResponse,
 )
 def demote_member_from_admin(
-    group_id: str,
-    member_id: str,
+group_id: UUID,
+    member_id: UUID,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):

@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 from geoalchemy2.elements import WKTElement
@@ -15,7 +17,7 @@ class GroupLocationService:
     def create_location(
         self,
         db: Session,
-        group_id: str,
+        group_id: UUID,
         latitude: float,
         longitude: float,
         name: str | None,
@@ -57,7 +59,7 @@ class GroupLocationService:
     def get_location(
         self,
         db: Session,
-        group_id: str,
+        group_id: UUID,
     ) -> dict:
 
         location = self.group_location_repository.get_by_group_id(
@@ -91,7 +93,7 @@ class GroupLocationService:
     def update_location(
         self,
         db: Session,
-        group_id: str,
+        group_id: UUID,
         latitude: float | None,
         longitude: float | None,
         name: str | None,
@@ -161,7 +163,7 @@ class GroupLocationService:
     def delete_location(
         self,
         db: Session,
-        group_id: str,
+        group_id: UUID,
     ) -> None:
 
         location = self.group_location_repository.get_by_group_id(

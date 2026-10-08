@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel , UUID4
 
 
 class ActivityInteractionRequest(BaseModel):
@@ -8,8 +8,8 @@ class ActivityInteractionRequest(BaseModel):
 
 
 class ActivityInteractionResponse(BaseModel):
-    id: str
-    user_id: str
-    activity_id: str
+    id: UUID4
+    user_id: UUID4
+    activity_id: UUID4
     interaction_type: str
     occurred_at: datetime

@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr , UUID4
 
 
 class RegisterRequest(BaseModel):
@@ -18,7 +18,7 @@ class TokenResponse(BaseModel):
     token_type: str
 
 class UserResponse(BaseModel):
-    id: str
+    id: UUID4
     username: str
     email: EmailStr
     is_active: bool

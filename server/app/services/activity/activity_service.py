@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+from uuid import UUID
 
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
@@ -62,7 +63,7 @@ class ActivityService:
         activity_id: str,
         title: str | None,
         description: str | None,
-        group_id: str | None,
+        group_id: UUID | None,
         starts_at: datetime | None,
         ends_at: datetime | None,
         is_public: bool | None,

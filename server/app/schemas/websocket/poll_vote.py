@@ -1,11 +1,11 @@
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel , UUID4
 
 
 class PollVoteWebSocketMessage(BaseModel):
     type: str
-    poll_id: str
-    option_id: str
-    user_id: str
+    poll_id: UUID4
+    option_id: UUID4
+    user_id: UUID4
     voted_at: datetime

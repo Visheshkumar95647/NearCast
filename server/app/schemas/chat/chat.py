@@ -1,11 +1,11 @@
 from uuid import UUID
 
-from pydantic import BaseModel
+from pydantic import BaseModel ,UUID4
 
 
 class ChatResponse(BaseModel):
-    id: UUID
-    group_id: UUID
+    id: UUID4
+    group_id: UUID4
     name: str | None
 
     model_config = {

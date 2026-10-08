@@ -5,7 +5,7 @@ from app.api.deps import get_current_user, get_db
 from app.models.user.user import User
 from app.schemas.group.broadcast import BroadcastCreate, BroadcastResponse
 from app.services.group.broadcast_service import BroadcastService
-
+from uuid import UUID
 
 router = APIRouter(
     prefix="/groups",
@@ -21,7 +21,7 @@ broadcast_service = BroadcastService()
     response_model=BroadcastResponse,
 )
 async def create_broadcast(
-    group_id: str,
+    group_id: UUID,
     data: BroadcastCreate,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
@@ -41,7 +41,7 @@ async def create_broadcast(
     response_model=list[BroadcastResponse],
 )
 def get_group_broadcasts(
-    group_id: str,
+    group_id: UUID,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):

@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -19,7 +21,7 @@ class JoinRequestRepository:
         self,
         db: Session,
         user_id: str,
-        group_id: str,
+        group_id: UUID,
     ) -> JoinRequest | None:
 
         result = db.execute(
@@ -35,7 +37,7 @@ class JoinRequestRepository:
     def get_group_requests(
         self,
         db: Session,
-        group_id: str,
+        group_id: UUID,
     ) -> list[tuple[JoinRequest, User]]:
 
         result = db.execute(
@@ -77,7 +79,7 @@ class JoinRequestRepository:
         self,
         db: Session,
         user_id: str,
-        group_id: str,
+        group_id: UUID,
     ) -> JoinRequest | None:
 
         result = db.execute(

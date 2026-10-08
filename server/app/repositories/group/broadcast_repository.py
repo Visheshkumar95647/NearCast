@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -29,7 +31,7 @@ class BroadcastRepository:
     def get_by_group_id(
         self,
         db: Session,
-        group_id: str,
+        group_id: UUID,
     ) -> list[Broadcast]:
 
         result = db.execute(

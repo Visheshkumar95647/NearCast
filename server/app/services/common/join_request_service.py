@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+from uuid import UUID
 
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
@@ -20,7 +21,7 @@ class JoinRequestService:
         self,
         db: Session,
         user_id: str,
-        group_id: str,
+        group_id: UUID,
     ) -> list[dict]:
 
         if not self.group_member_repository.is_admin(
@@ -42,7 +43,7 @@ class JoinRequestService:
             {
                 "id": str(join_request.id),
                 "user_id": str(join_request.user_id),
-                "group_id": str(join_request.group_id),
+                "group_id": (join_request.group_id),
                 "username": user.username,
                 "status": join_request.status,
                 "requested_at": join_request.requested_at,
@@ -55,7 +56,7 @@ class JoinRequestService:
         self,
         db: Session,
         user_id: str,
-        group_id: str,
+        group_id: UUID,
     ) -> dict | None:
 
         join_request = self.join_request_repository.get_user_request(
@@ -72,7 +73,7 @@ class JoinRequestService:
         return {
             "id": str(join_request.id),
             "user_id": str(join_request.user_id),
-            "group_id": str(join_request.group_id),
+            "group_id": (join_request.group_id),
             "username": user.username,
             "status": join_request.status,
             "requested_at": join_request.requested_at,
@@ -97,7 +98,7 @@ class JoinRequestService:
                 detail="Join request not found",
             )
 
-        group_id = str(join_request.group_id)
+        group_id = (join_request.group_id)
 
         if not self.group_member_repository.is_admin(
             db,
@@ -147,7 +148,7 @@ class JoinRequestService:
         return {
             "id": str(join_request.id),
             "user_id": str(join_request.user_id),
-            "group_id": str(join_request.group_id),
+            "group_id": (join_request.group_id),
             "username": user.username,
             "status": join_request.status,
             "requested_at": join_request.requested_at,
@@ -172,7 +173,7 @@ class JoinRequestService:
                 detail="Join request not found",
             )
 
-        group_id = str(join_request.group_id)
+        group_id = (join_request.group_id)
 
         if not self.group_member_repository.is_admin(
             db,
@@ -201,7 +202,7 @@ class JoinRequestService:
         return {
             "id": str(join_request.id),
             "user_id": str(join_request.user_id),
-            "group_id": str(join_request.group_id),
+            "group_id": (join_request.group_id),
             "username": user.username,
             "status": join_request.status,
             "requested_at": join_request.requested_at,

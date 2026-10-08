@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from uuid import UUID
+
 from pydantic import BaseModel
 
 
@@ -9,7 +11,7 @@ class BroadcastWebSocketMessage(BaseModel):
 
     broadcast_id: str
 
-    group_id: str
+    group_id: UUID
 
     sender_id: str
 

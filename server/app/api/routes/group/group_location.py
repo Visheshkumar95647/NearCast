@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
@@ -24,7 +26,7 @@ group_location_service = GroupLocationService()
     response_model=GroupLocationResponse,
 )
 def create_group_location(
-    group_id: str,
+    group_id: UUID,
     request: GroupLocationCreateRequest,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
@@ -43,7 +45,7 @@ def create_group_location(
     response_model=GroupLocationResponse,
 )
 def get_group_location(
-    group_id: str,
+    group_id: UUID,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
@@ -58,7 +60,7 @@ def get_group_location(
     response_model=GroupLocationResponse,
 )
 def update_group_location(
-    group_id: str,
+    group_id: UUID,
     request: GroupLocationUpdateRequest,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
@@ -76,7 +78,7 @@ def update_group_location(
     "/{group_id}/location",
 )
 def delete_group_location(
-    group_id: str,
+    group_id: UUID,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):

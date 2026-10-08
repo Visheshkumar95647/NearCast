@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+from uuid import UUID
 
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
@@ -24,7 +25,7 @@ class BroadcastService:
         self,
         db: Session,
         user_id: str,
-        group_id: str,
+        group_id: UUID,
         content: str,
         radius_meters: float,
     ) -> Broadcast:
@@ -89,7 +90,7 @@ class BroadcastService:
         message = BroadcastWebSocketMessage(
             type="broadcast",
             broadcast_id=str(broadcast.id),
-            group_id=str(broadcast.group_id),
+            group_id=(broadcast.group_id),
             sender_id=str(broadcast.sender_id),
             content=broadcast.content,
             sent_at=broadcast.sent_at,
@@ -105,7 +106,7 @@ class BroadcastService:
     def get_group_broadcasts(
         self,
         db: Session,
-        group_id: str,
+        group_id: UUID,
     ) -> list[Broadcast]:
 
         return self.broadcast_repository.get_by_group_id(

@@ -1,10 +1,9 @@
 from datetime import datetime
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, UUID4
 
 
 class BroadcastCreate(BaseModel):
-
     content: str = Field(
         min_length=1,
         max_length=1000,
@@ -17,12 +16,11 @@ class BroadcastCreate(BaseModel):
 
 
 class BroadcastResponse(BaseModel):
+    id: UUID4
 
-    id: str
+    group_id: UUID4
 
-    group_id: str
-
-    sender_id: str
+    sender_id: UUID4
 
     content: str
 
@@ -31,3 +29,7 @@ class BroadcastResponse(BaseModel):
     created_at: datetime
 
     updated_at: datetime
+
+    model_config = {
+        "from_attributes": True
+    }

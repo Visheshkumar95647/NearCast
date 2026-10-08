@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.models.group.group_member import GroupMember
 from app.models.user.user import User
-
+from uuid import UUID
 
 class GroupMemberRepository:
 
@@ -11,7 +11,7 @@ class GroupMemberRepository:
         self,
         db: Session,
         user_id: str,
-        group_id: str,
+        group_id: UUID,
     ) -> GroupMember | None:
 
         result = db.execute(
@@ -47,7 +47,7 @@ class GroupMemberRepository:
     def get_members(
         self,
         db: Session,
-        group_id: str,
+        group_id: UUID,
     ) -> list[tuple[GroupMember, User]]:
 
         result = db.execute(
@@ -62,7 +62,7 @@ class GroupMemberRepository:
     def get_admins_by_group_id(
         self,
         db: Session,
-        group_id: str,
+        group_id: UUID,
     ) -> list[GroupMember]:
 
         result = db.execute(
@@ -78,7 +78,7 @@ class GroupMemberRepository:
         self,
         db: Session,
         user_id: str,
-        group_id: str,
+        group_id: UUID,
     ) -> bool:
 
         result = db.execute(
@@ -93,7 +93,7 @@ class GroupMemberRepository:
     def get_user_ids_by_group_id(
     self,
     db: Session,
-    group_id: str,
+    group_id: UUID,
 ) -> list[str]:
 
         result = db.execute(

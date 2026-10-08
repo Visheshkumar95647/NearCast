@@ -40,7 +40,7 @@ class MessageService:
         group_member = self.group_member_repository.get_by_user_and_group(
             db=db,
             user_id=user_id,
-            group_id=str(chat.group_id),
+            group_id=(chat.group_id),
         )
 
         if not group_member:
@@ -63,7 +63,7 @@ class MessageService:
 
         member_user_ids = self.group_member_repository.get_user_ids_by_group_id(
             db=db,
-            group_id=str(chat.group_id),
+            group_id=(chat.group_id),
         )
 
         websocket_message = ChatWebSocketMessage(
@@ -105,7 +105,7 @@ class MessageService:
         group_member = self.group_member_repository.get_by_user_and_group(
         db=db,
         user_id=user_id,
-        group_id=str(chat.group_id),
+        group_id=(chat.group_id),
     )
 
         if not group_member:
@@ -140,10 +140,10 @@ class MessageService:
         if has_more and messages:
             oldest_message = messages[0]
 
-        next_cursor = MessageCursor(
+            next_cursor = MessageCursor(
             sent_at=oldest_message.sent_at,
             message_id=str(oldest_message.id),
-        )
+            )
 
         return MessageListResponse(
         messages=message_responses,

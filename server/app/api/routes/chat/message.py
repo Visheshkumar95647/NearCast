@@ -6,9 +6,8 @@ from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_current_user, get_db
-from app.models.chat.message import Message
 from app.models.user.user import User
-from app.schemas.chat.message import MessageListResponse
+from app.schemas.chat.message import MessageResponse, MessageListResponse
 from app.services.chat.message_service import MessageService
 
 
@@ -26,17 +25,17 @@ class MessageCreate(BaseModel):
 
 @router.post(
     "/{chat_id}/messages",
-    response_model=MessageListResponse,
+    response_model=MessageResponse,
 )
 async def send_message(
-    chat_id: str,
+    chat_id: UUID,
     data: MessageCreate,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
     return await message_service.send_message(
         db=db,
-        user_id=str(current_user.id),
+        user_id=current_user.id,
         chat_id=chat_id,
         content=data.content,
     )
@@ -47,7 +46,7 @@ async def send_message(
     response_model=MessageListResponse,
 )
 def get_chat_messages(
-    chat_id: str,
+    chat_id: UUID,
     limit: int = Query(
         default=50,
         ge=1,
@@ -70,7 +69,7 @@ def get_chat_messages(
 
     return message_service.get_chat_messages(
         db=db,
-        user_id=str(current_user.id),
+        user_id=current_user.id,
         chat_id=chat_id,
         limit=limit,
         before_sent_at=before_sent_at,

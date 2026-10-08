@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field , UUID4
 
 
 class AddInterestRequest(BaseModel):
@@ -6,5 +6,5 @@ class AddInterestRequest(BaseModel):
 
 
 class InterestResponse(BaseModel):
-    id: str
+    id: UUID4
     name: str
