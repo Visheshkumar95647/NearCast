@@ -109,12 +109,12 @@ class AuthService:
         )
 
         return access_token, refresh_token
-
+   #When implementing the frontend authentication flow, use an Axios interceptor to automatically refresh the access token when it expires. Handle concurrent 401 requests with a refresh queue/single-flight mechanism so only one refresh request is sent, then retry the pending requests with the new access token.
     def refresh(
         self,
         db: Session,
         refresh_token: str,
-    ) -> str:
+    )-> str:
         try:
             payload = jwt.decode(
                 refresh_token,
